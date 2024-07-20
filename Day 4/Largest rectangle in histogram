@@ -1,0 +1,54 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int[] x1=nser(heights);
+        int[] x2=nsel(heights);
+        int max=Integer.MIN_VALUE;
+
+        for(int i=0;i<heights.length;i++){
+          int side1=x1[i]-1;
+          int side2=x2[i]+1;
+          int width=side1-side2+1;
+          int area=width*heights[i];
+          max=Math.max(area,max);  
+        }
+        return max;
+
+    }
+    public int[] nser(int[] heights){
+        Stack<Integer>st=new Stack<>();
+        int[] ans=new int[heights.length];
+
+        for(int i=0;i<heights.length;i++){
+            while(st.size()>0 && heights[i]<heights[st.peek()]){
+                int idx=st.pop();
+                ans[idx]=i;
+            }
+            st.push(i);
+        }
+          while (st.size() > 0) {
+            int idx = st.pop();
+            ans[idx] = heights.length;
+        }
+
+        return ans;
+    }
+
+      public int[] nsel(int[] heights){
+        Stack<Integer>st=new Stack<>();
+        int[] ans=new int[heights.length];
+
+        for(int i=heights.length-1;i>=0;i--){
+            while(st.size()>0 && heights[i]<heights[st.peek()]){
+                int idx=st.pop();
+                ans[idx]=i;
+            }
+            st.push(i);
+        }
+          while (st.size() > 0) {
+            int idx = st.pop();
+            ans[idx] = -1;
+        }
+
+        return ans;
+    }
+}
