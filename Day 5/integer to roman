@@ -1,0 +1,35 @@
+class Solution {
+    public String intToRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+
+        publish(sb, num / 1000, "M", "", ""); 
+        num = num % 1000;
+
+        publish(sb, num / 100, "C", "M", "D"); 
+        num = num % 100;
+
+        publish(sb, num / 10, "X", "C", "L"); 
+        num = num % 10;
+
+        publish(sb, num, "I", "X", "V"); 
+
+        return sb.toString();
+    }
+
+    public void publish(StringBuilder sb, int num, String minor, String major, String middle) {
+        if (num == 9) {
+            sb.append(minor).append(major);
+        } else if (num >= 5) {
+            sb.append(middle);
+            for (int i = 0; i < num - 5; i++) {
+                sb.append(minor);
+            }
+        } else if (num == 4) {
+            sb.append(minor).append(middle);
+        } else {
+            for (int i = 0; i < num; i++) {
+                sb.append(minor);
+            }
+        }
+    }
+}
