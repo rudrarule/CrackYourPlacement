@@ -1,0 +1,22 @@
+class Solution 
+{ 
+    public static long[] productExceptSelf(int nums[], int n) 
+    { 
+        long[] pfprdct = new long[n];
+        
+        pfprdct[0] = nums[0];
+        
+        for(int i = 1; i < n; i++) {
+            pfprdct[i] = pfprdct[i - 1] * nums[i];
+        }
+        
+        long suffix = 1;
+        for(int i = n - 1; i > 0; i--) {
+            pfprdct[i] = pfprdct[i - 1] * suffix;    
+            suffix *= nums[i];   
+        }
+        pfprdct[0] = suffix;
+        
+        return pfprdct;
+    } 
+} 
