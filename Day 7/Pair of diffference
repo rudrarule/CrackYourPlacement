@@ -1,11 +1,11 @@
 class Solution {
     public int findPair(int n, int x, int[] arr) {
-        // Sort the array
+       
         Arrays.sort(arr);
         int i = 0;
         int j = 1;
 
-        // Use two pointers to find the pair
+       
         while (i < n && j < n) {
             if (i != j) {
                 int pair = arr[j] - arr[i];
