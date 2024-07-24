@@ -1,0 +1,42 @@
+class Solution {
+    // Function to find the minimum number of pages.
+    public static long findPages(int n, int[] arr, int m) {
+        if (m > n) return -1;
+
+       
+        int max = Arrays.stream(arr).max().getAsInt();
+        long sum = Arrays.stream(arr).sum();
+        
+        long low = max;
+        long high = sum;
+        long result = -1;
+
+      
+        while (low <= high) {
+            long mid = low + (high - low) / 2;
+
+            if (countPages(arr, n, mid) <= m) {
+                result = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return result;
+    }
+
+    public static int countPages(int[] arr, int n, long maxPages) {
+        int students = 1;
+        long pages = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (pages + arr[i] > maxPages) {
+                students++;
+                pages = arr[i];
+            } else {
+                pages += arr[i];
+            }
+        }
+        return students;
+    }
+}
