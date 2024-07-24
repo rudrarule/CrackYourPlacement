@@ -1,0 +1,60 @@
+same as magnetic force between balls
+
+import java.util.Arrays;
+
+class Solution {
+    public int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
+        int low = solve(position.length, m, position);
+        int high = position[position.length - 1] - position[0];
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int cowsPlaced = count(position, mid);
+
+            if (cowsPlaced >= m) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    public int solve(int n, int k, int[] dist) {
+        Arrays.sort(dist);
+        int lo = dist[n - 1];
+        for (int i = 1; i < n; i++) {
+            lo = Math.min(lo, dist[i] - dist[i - 1]);
+        }
+        int hi = dist[n - 1] - dist[0];
+
+        int ans = -1;
+        while (lo <= hi) {
+            int m = lo + (hi - lo) / 2;
+
+            int cowsPlaced = count(dist, m);
+            if (cowsPlaced >= k) {
+                ans = m;
+                lo = m + 1;
+            } else {
+                hi = m - 1;
+            }
+        }
+        return ans;
+    }
+
+    public int count(int[] arr, int m) {
+        int cows = 1;
+        int lastcowPos = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] - lastcowPos >= m) {
+                cows++;
+                lastcowPos = arr[i];
+            }
+        }
+        return cows;
+    }
+}
