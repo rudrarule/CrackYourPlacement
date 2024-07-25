@@ -1,0 +1,81 @@
+geeksforgeeks
+Courses
+Get 90% Refund
+Tutorials
+Jobs
+Practice
+Contests
+R
+
+
+Refresh
+
+Time (IST)	Status	Marks	Lang	Test Cases	Code
+2024-07-07 22:11:05	Correct	
+2
+java	1123 / 1123	View
+Java (1.8)
+Average Time: 30m
+
+
+
+        }
+
+
+
+Custom Input
+
+
+// User function Template for Java
+
+/*
+class Node
+{
+    int data;
+    Node next;
+    Node(int data)
+    {
+        this.data = data;
+        next = null;
+    }
+}
+*/
+class Solution {
+    // Function to sort a linked list of 0s, 1s, and 2s.
+    static Node segregate(Node head) {
+        Node temp = head;
+        int countZero = 0;
+        int countOne = 0;
+        int countTwo = 0;
+
+        
+        while (temp != null) {
+            if (temp.data == 0) {
+                countZero++;
+            } else if (temp.data == 1) {
+                countOne++;
+            } else {
+                countTwo++;
+            }
+            temp = temp.next;
+        }
+
+        
+        temp = head;
+        while (temp != null) {
+            if (countZero != 0) {
+                temp.data = 0;
+                countZero--;
+            } else if (countOne != 0) {
+                temp.data = 1;
+                countOne--;
+            } else {
+                temp.data = 2;
+                countTwo--;
+            }
+            temp = temp.next;
+        }
+
+        return head;
+    }
+}
