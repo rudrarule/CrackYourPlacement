@@ -1,0 +1,41 @@
+
+
+class StockSpanner {
+
+    private Stack<Pair<Integer, Integer>> st;
+    private int idx;
+
+    public StockSpanner() {
+        st = new Stack<>();
+        idx = -1;
+    }
+    
+    public int next(int price) {
+        idx++;
+        int span = 1;
+
+        // Calculate the span for the current price
+        while (!st.isEmpty() && st.peek().first <= price) {
+            span += st.pop().second;
+        }
+        
+        st.push(new Pair<>(price, span));
+        return span;
+    }
+
+    private static class Pair<K, V> {
+        public K first;
+        public V second;
+
+        public Pair(K first, V second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
