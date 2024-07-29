@@ -1,0 +1,63 @@
+class Pair {
+    int i;
+    int j;
+    int t;
+
+    Pair(int x, int y, int z) {
+        this.i = x;
+        this.j = y;
+        this.t = z;
+    }
+}
+
+class Solution {
+    
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<Pair> q = new LinkedList<>();
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    Pair p = new Pair(i, j, 0);
+                    q.add(p);
+                }
+            }
+        }
+
+        int ans = 0;
+       
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        while (!q.isEmpty()) {
+            Pair rem = q.remove();
+            int crow = rem.i;
+            int ccol = rem.j;
+            int ctime = rem.t;
+            ans = ctime;
+
+            
+            for (int[] direction : directions) {
+                int newRow = crow + direction[0];
+                int newCol = ccol + direction[1];
+                if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == 1) {
+                    grid[newRow][newCol] = 2; // Mark as rotten.
+                    q.add(new Pair(newRow, newCol, ctime + 1));
+                }
+            }
+        }
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    return -1; 
+                }
+            }
+        }
+
+        return ans;
+    }
+}
