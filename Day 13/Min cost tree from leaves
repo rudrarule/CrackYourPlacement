@@ -1,0 +1,50 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.AbstractMap;
+
+class Solution {
+    public int mctFromLeafValues(int[] arr) {
+        int n = arr.length;
+        HashMap<Map.Entry<Integer, Integer>, Integer> maxi = new HashMap<>();
+        int[][] dp = new int[n][n];
+        
+        // Initialize the dp array with -1 to indicate uncomputed subproblems
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        // Fill maxi with the maximum values for each subarray
+        for (int i = 0; i < n; i++) {
+            maxi.put(new AbstractMap.SimpleEntry<>(i, i), arr[i]);
+            for (int j = i + 1; j < n; j++) {
+                maxi.put(new AbstractMap.SimpleEntry<>(i, j), Math.max(maxi.get(new AbstractMap.SimpleEntry<>(i, j - 1)), arr[j]));
+            }
+        }
+        
+        return solve(maxi, arr, 0, n - 1, dp);
+    }
+
+    public int solve(HashMap<Map.Entry<Integer, Integer>, Integer> maxi, int[] arr, int left, int right, int[][] dp) {
+        if (left == right) {
+            return 0;
+        }
+        
+        if (dp[left][right] != -1) {
+            return dp[left][right];
+        }
+        
+        int ans = Integer.MAX_VALUE;
+
+        for (int k = left; k < right; k++) {
+            int leftMax = maxi.get(new AbstractMap.SimpleEntry<>(left, k));
+            int rightMax = maxi.get(new AbstractMap.SimpleEntry<>(k + 1, right));
+            int cost = leftMax * rightMax + solve(maxi, arr, left, k, dp) + solve(maxi, arr, k + 1, right, dp);
+            ans = Math.min(ans, cost);
+        }
+        
+        dp[left][right] = ans;
+        return ans;
+    }
+}
