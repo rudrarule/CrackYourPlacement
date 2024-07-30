@@ -1,0 +1,59 @@
+import java.util.Stack;
+
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        int n = arr.length;
+        int MOD = 1_000_000_007;
+
+        int[] nse = nextSmallerElement(arr);
+        int[] pse = prevSmallerElement(arr);
+
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            int right = nse[i] - i;
+            int left = i - pse[i];
+
+            sum = (sum + (long) left * right * arr[i]) % MOD;
+        }
+
+        return (int) sum;
+    }
+
+    private int[] nextSmallerElement(int[] arr) {
+        int n = arr.length;
+        int[] nse = new int[n];
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = 0; i < n; i++) {
+            while (!st.isEmpty() && arr[i] < arr[st.peek()]) {
+                nse[st.pop()] = i;
+            }
+            st.push(i);
+        }
+
+        while (!st.isEmpty()) {
+            nse[st.pop()] = n;  
+        }
+
+        return nse;
+    }
+
+    private int[] prevSmallerElement(int[] arr) {
+        int n = arr.length;
+        int[] pse = new int[n];
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.isEmpty() && arr[i] < arr[st.peek()]) {
+                pse[st.pop()] = i;
+            }
+            st.push(i);
+        }
+
+        while (!st.isEmpty()) {
+            pse[st.pop()] = -1;  
+        }
+
+        return pse;
+    }
+}
