@@ -1,0 +1,47 @@
+
+
+//User function Template for Java
+
+
+class Solution {
+   
+    public int maximizeCuts(int n, int x, int y, int z) {
+       
+        int[] dp = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
+            dp[i] = -1;
+        }
+        
+        
+        int result = helper(n, x, y, z, dp);
+        
+      
+        return result < 0 ? 0 : result;
+    }
+
+    public int helper(int n, int x, int y, int z, int[] dp) {
+       
+        if (n == 0) {
+            return 0;
+        }
+
+        if (n < 0) {
+            return Integer.MIN_VALUE;
+        }
+
+      
+        if (dp[n] != -1) {
+            return dp[n];
+        }
+
+     
+        int cutX = helper(n - x, x, y, z, dp) + 1;
+        int cutY = helper(n - y, x, y, z, dp) + 1;
+        int cutZ = helper(n - z, x, y, z, dp) + 1;
+
+        dp[n] = Math.max(cutX, Math.max(cutY, cutZ));
+
+       
+        return dp[n];
+    }
+}
