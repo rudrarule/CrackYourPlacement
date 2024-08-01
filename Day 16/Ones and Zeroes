@@ -1,0 +1,55 @@
+
+
+class Solution {
+    private int[][][] dp;
+
+    public int findMaxForm(String[] strs, int m, int n) {
+        dp = new int[m + 1][n + 1][strs.length + 1];
+        for (int[][] row : dp) {
+            for (int[] col : row) {
+                Arrays.fill(col, -1);
+            }
+        }
+        return recur(strs, m, n, 0);
+    }
+
+    private int recur(String[] strs, int m, int n, int i) {
+        if (i >= strs.length || m < 0 || n < 0) {
+            return 0;
+        }
+        if (dp[m][n][i] != -1) {
+            return dp[m][n][i];
+        }
+
+        int zeros = countZeros(strs[i]);
+        int ones = countOnes(strs[i]);
+
+        if (m - zeros >= 0 && n - ones >= 0) {
+            dp[m][n][i] = Math.max(1 + recur(strs, m - zeros, n - ones, i + 1), recur(strs, m, n, i + 1));
+        } else {
+            dp[m][n][i] = recur(strs, m, n, i + 1);
+        }
+        
+        return dp[m][n][i];
+    }
+
+    private int countZeros(String str) {
+        int count = 0;
+        for (char c : str.toCharArray()) {
+            if (c == '0') {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int countOnes(String str) {
+        int count = 0;
+        for (char c : str.toCharArray()) {
+            if (c == '1') {
+                count++;
+            }
+        }
+        return count;
+    }
+}
