@@ -1,0 +1,36 @@
+class Solution {
+    public int uniquePaths(int m, int n) {
+    int [][]dp=new int[m][n];
+       for(int i=0;i<m;i++){
+            Arrays.fill(dp[i],-1);
+        }
+       return uniquepathshelper(m-1,n-1,dp);
+    }
+     public static int uniquepathshelper(int sr, int sc, int[][] dp) {
+        if (sr < 0 || sc < 0) {
+            return 0;
+        }
+        if (sr == 0 && sc == 0) {
+            return 1;
+        }
+
+        if (dp[sr][sc] != -1) {
+            return dp[sr][sc];
+        }
+
+        int path1 =uniquepathshelper (sr - 1, sc, dp);
+        int path2 =uniquepathshelper(sr, sc - 1, dp);
+
+        dp[sr][sc] = path1 + path2;
+        return dp[sr][sc];
+    }
+}
+
+        
+    
+    
+   
+    
+
+
+
