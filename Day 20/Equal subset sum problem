@@ -1,0 +1,25 @@
+class Solution{
+    public static int util(int[] arr, int j, int sum, int target, int[][] dp){
+        
+        if(2*sum==target) return 1;
+        
+        if(j<0) return 0;
+        
+        if(dp[j][sum]!=-1) return dp[j][sum];
+        
+        return dp[j][sum] = util(arr,j-1,sum,target,dp) | util(arr,j-1,sum+arr[j],target,dp);
+        
+    }
+    static int equalPartition(int n, int arr[])
+    {
+        // code here
+        int sum = 0;
+        for(int a: arr)
+        sum += a;
+        
+        int[][] dp = new int[n][sum+1];
+        for(int[] row: dp)
+        Arrays.fill(row,-1);
+        return util(arr,n-1,0,sum,dp);
+    }
+}
