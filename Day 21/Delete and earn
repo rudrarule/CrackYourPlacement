@@ -1,0 +1,30 @@
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+    
+        if (nums.length == 0) return 0;
+        
+        int maxValue = 0;
+        for (int num : nums) {
+            if (num > maxValue) {
+                maxValue = num;
+            }
+        }
+
+        int[] freq = new int[maxValue + 1];
+        for (int num : nums) {
+            freq[num]++;
+        }
+
+        int[] dp = new int[maxValue + 1];
+        dp[1] = freq[1];
+        if (maxValue > 1) {
+            dp[2] = Math.max(dp[1], freq[2] * 2);
+        }
+
+        for (int i = 3; i <= maxValue; i++) {
+            dp[i] = Math.max(freq[i] * i + dp[i - 2], dp[i - 1]);
+        }
+
+        return dp[maxValue];
+    }
+}
