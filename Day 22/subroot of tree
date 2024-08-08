@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        String first = pre(root);
+        String second = pre(subRoot);
+        return first.contains(second);
+    }
+    
+    public String pre(TreeNode root) {
+        if (root == null) {
+            return "NULL";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.val).append(",");
+        sb.append(pre(root.left));
+        sb.append(pre(root.right));
+
+        return sb.toString();
+    }
+}
