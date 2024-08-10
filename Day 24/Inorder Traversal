@@ -1,0 +1,13 @@
+class Solution {
+public List<Integer> inorderTraversal(TreeNode root) {
+List<Integer> pre = new ArrayList<>();
+preHelper(root,pre);
+return pre;
+}
+public void preHelper(TreeNode root, List<Integer> pre) {
+if(root==null) return;
+preHelper(root.left,pre);
+pre.add(root.val);
+preHelper(root.right,pre);
+}
+}
