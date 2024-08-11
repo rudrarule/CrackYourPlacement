@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+
+        Queue<TreeNode> q = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        q.add(root);
+        boolean level = true; 
+
+        while (!q.isEmpty()) {
+            int n = q.size();
+            List<Integer> al = new ArrayList<>();
+            Stack<Integer> st = new Stack<>();
+
+            for (int i = 0; i < n; i++) {
+                TreeNode temp = q.remove();
+                if (level) {
+                    al.add(temp.val);
+                } else {
+                    st.add(temp.val);
+                }
+                if (temp.left != null) q.add(temp.left);
+                if (temp.right != null) q.add(temp.right);
+            }
+
+            if (!level) {
+                while (!st.isEmpty()) {
+                    al.add(st.pop());
+                }
+            }
+
+            ans.add(al);
+            level = !level;
+        }
+        return ans;
+    }
+}
