@@ -1,0 +1,28 @@
+class Tree {
+    public static float findMedian(Node root) {
+        List<Integer> al = new ArrayList<>();
+        helper(root, al);
+        
+        int size = al.size();
+        if (size == 0) {
+            return 0; 
+        }
+        
+        if (size % 2 == 1) {
+
+            return (float) al.get(size / 2);
+        } else {
+
+            return (al.get(size / 2 - 1) + al.get(size / 2)) / 2.0f;
+        }
+    }
+
+    public static void helper(Node root, List<Integer> al) {
+        if (root == null) {
+            return;
+        }
+        helper(root.left, al);
+        al.add(root.data);
+        helper(root.right, al);
+    }
+}
