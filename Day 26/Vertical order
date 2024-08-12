@@ -1,0 +1,52 @@
+
+
+class Pair {
+    TreeNode node;
+    int vt;
+    
+    Pair(TreeNode node, int vt) {
+        this.node = node;
+        this.vt = vt;
+    }
+}
+
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            Map<Integer, List<Integer>> levelMap = new HashMap<>();
+            
+            for (int i = 0; i < size; i++) {
+                Pair remn = q.poll();
+                TreeNode node = remn.node;
+                int vt = remn.vt;
+                
+                levelMap.putIfAbsent(vt, new ArrayList<>());
+                levelMap.get(vt).add(node.val);
+                
+                if (node.left != null) {
+                    q.add(new Pair(node.left, vt - 1));
+                }
+                if (node.right != null) {
+                    q.add(new Pair(node.right, vt + 1));
+                }
+            }
+            
+            for (int vt : levelMap.keySet()) {
+                if (!map.containsKey(vt)) {
+                    map.put(vt, new ArrayList<>());
+                }
+                List<Integer> list = map.get(vt);
+                List<Integer> levelList = levelMap.get(vt);
+                Collections.sort(levelList);
+                list.addAll(levelList);
+            }
+        }
+        
+        return new ArrayList<>(map.values());
+    }
+}
