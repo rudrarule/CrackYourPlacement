@@ -1,0 +1,62 @@
+
+
+// FUNCTION CODE
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+   Node(int item)    {
+        data = item;
+        left = right = null;
+    }
+} */
+
+/* Should return minimum distance between a and b
+   in a tree with given root*/
+class GfG {
+    int findDist(Node root, int a, int b) {
+        Node lcaNode = lca(root, a, b);
+        int x = solve(lcaNode, a);
+        int y = solve(lcaNode, b);
+        return x + y-2; 
+    }
+
+    public Node lca(Node root, int a, int b) {
+        if (root == null) {
+            return null;
+        }
+        if (root.data == a || root.data == b) {
+            return root;
+        }
+        Node l = lca(root.left, a, b);
+        Node r = lca(root.right, a, b);
+        
+        if (l != null && r != null) {
+            return root;
+        }
+        if (l != null) {
+            return l;
+        } else {
+            return r;
+        }
+    }
+
+    public int solve(Node root, int val) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.data == val) {
+            return 1;
+        }
+        
+        int x = solve(root.left, val);
+        int y = solve(root.right, val);
+        
+        if (x == 0 && y == 0) {
+            return 0;
+        } else {
+            return x + y+1;
+        }
+    }
+}
