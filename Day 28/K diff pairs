@@ -1,0 +1,49 @@
+
+
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        Arrays.sort(nums);
+        Set<Pair> ans = new HashSet<>();
+
+        int i = 0, j = 1;
+        while (j < nums.length) {
+            int diff = nums[j] - nums[i];
+            if (diff == k) {
+                ans.add(new Pair(nums[i], nums[j]));
+                i++;
+                j++;
+            } else if (diff > k) {
+                i++;
+            } else {
+                j++;
+            }
+            if (i == j) {
+                j++;
+            }
+        }
+        return ans.size();
+    }
+}
+
+class Pair {
+    int first;
+    int second;
+
+    Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair pair = (Pair) o;
+        return first == pair.first && second == pair.second;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second);
+    }
+}
